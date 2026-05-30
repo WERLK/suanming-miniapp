@@ -107,27 +107,33 @@ Page({
    */
   watchAdForVIP: function () {
     var self = this;
-    this.setData({ showAdModal: true });
+    try {
+      this.setData({ showAdModal: true });
 
-    var adManager = app.globalData.adManager;
-    if (adManager) {
-      adManager.show({
-        onStart: function () {
-          console.log('[VIP] 广告开始展示');
-        },
-        onProgress: function (info) {
-          console.log('[VIP] 广告进度:', info.current, '/', info.total);
-        }
-      }).then(function (result) {
-        if (result.success && result.isEnded) {
-          self.claimAdReward();
-        } else if (!result.isEnded) {
-          wx.showToast({ title: '请完整观看广告', icon: 'none' });
+      var adManager = app.globalData.adManager;
+      if (adManager) {
+        adManager.show({
+          onStart: function () {
+            console.log('[VIP] 广告开始展示');
+          },
+          onProgress: function (info) {
+            console.log('[VIP] 广告进度:', info.current, '/', info.total);
+          }
+        }).then(function (result) {
+          if (result.success && result.isEnded) {
+            self.claimAdReward();
+          } else if (!result.isEnded) {
+            wx.showToast({ title: '请完整观看广告', icon: 'none' });
+            self.setData({ showAdModal: false });
+          }
+        }).catch(function () {
           self.setData({ showAdModal: false });
-        }
-      }).catch(function () {
-        self.setData({ showAdModal: false });
-      });
+        });
+      }
+    } catch (e) {
+      console.error('[VIP] 广告加载失败:', e);
+      wx.showToast({ title: '广告加载失败，请稍后再试', icon: 'none' });
+      self.setData({ showAdModal: false });
     }
   },
 
