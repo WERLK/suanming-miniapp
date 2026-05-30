@@ -1,0 +1,14 @@
+# 微信开发者工具
+.DS_Store
+
+# 私有配置（含 AppID，不提交）
+project.private.config.json
+
+# 依赖
+node_modules/
+
+# 日志
+*.log
+
+# 系统文件
+Thumbs.db
