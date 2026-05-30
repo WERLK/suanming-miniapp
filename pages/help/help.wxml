@@ -1,14 +1,5 @@
 <view class="page-container">
-  <text class="page-title">❓ 帮助中心</text>
-  <block wx:for="{{faqs}}" wx:key="q">
-    <view class="card faq-item" bindtap="onToggle" data-index="{{index}}">
-      <view class="flex-between">
-        <text class="faq-q">{{'Q: '+item.q}}</text>
-        <text class="faq-arrow {{item.expanded?'open':''}}">▶</text>
-      </view>
-      <view class="faq-a {{item.expanded?'open':''}}">
-        <text>{{item.a}}</text>
-      </view>
-    </view>
-  </block>
+  <view class="faq-card card" wx:for="{{faq}}" wx:key="q">
+    <text class="faq-q">Q: {{item.q}}</text>
+    <text class="faq-a">A: {{item.a}}</text></view>
 </view>

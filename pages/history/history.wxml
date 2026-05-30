@@ -1,12 +1,13 @@
 <view class="page-container">
-  <text class="page-title">📜 算命历史</text>
-  <view wx:if="{{loading}}" class="loading-wrapper"><text class="loading-text">加载中...</text></view>
-  <view wx:elif="{{items.length === 0}}" class="empty-state"><text>暂无算命记录</text></view>
-  <block wx:else>
-    <view class="history-item card" wx:for="{{items}}" wx:key="id" bindtap="onTapItem" data-file="{{item.module_file}}" data-name="{{item.module_name}}">
-      <view class="flex-between"><text class="history-name">{{item.module_name}}</text><text class="history-time">{{item.created_at}}</text></view>
-      <text class="history-summary" wx:if="{{item.result_summary}}">{{item.result_summary}}</text>
-    </view>
-    <view wx:if="{{hasMore}}" class="loading-wrapper" style="padding:24rpx"><text class="loading-text">上拉加载更多</text></view>
-  </block>
+  <block wx:if="{{!loading && historyList.length > 0}}">
+    <view class="list-card card" wx:for="{{historyList}}" wx:key="id" bind:tap="onItemTap">
+      <view class="list-item-row">
+        <text class="list-item-icon">🔮</text>
+        <view class="list-item-body">
+          <text class="list-item-title">{{item.module_name || item.name || '算命记录'}}</text>
+          <text class="list-item-desc">{{item.created_at || item.date || ''}}</text></view>
+        <text class="list-item-arrow">›</text></view></view></block>
+  <view class="empty-state" wx:if="{{!loading && historyList.length === 0}}">
+    <text>📜</text><text>暂无历史记录</text></view>
+  <view class="loading-wrapper" wx:if="{{loading}}"><text class="loading-text">加载中...</text></view>
 </view>

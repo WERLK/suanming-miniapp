@@ -1,3 +1,17 @@
-var fortune = require('../../utils/fortune.js');
-var auth = require('../../utils/auth.js');
-Page({data:{items:[],page:1,hasMore:true,loading:false},onLoad:function(){if(!auth.isLoggedIn()){wx.reLaunch({url:'/pages/login/login'});return}this.loadData()},onShow:function(){if(auth.isLoggedIn())this.loadData()},onPullDownRefresh:function(){this.setData({page:1,hasMore:true});this.loadData().then(function(){wx.stopPullDownRefresh()})},onReachBottom:function(){if(!this.data.hasMore||this.data.loading)return;this.setData({page:this.data.page+1});this.loadData(true)},loadData:function(append){var s=this;if(!append)this.setData({loading:true});fortune.getHistory(this.data.page,20).then(function(r){var items=(r&&r.items)||(r&&r.data)||[];if(r){s.setData({items:append?s.data.items.concat(items):items,hasMore:items.length>=20,loading:false})}}).catch(function(){s.setData({loading:false})})},onTapItem:function(e){var f=e.currentTarget.dataset.file;var n=e.currentTarget.dataset.name;if(f){wx.navigateTo({url:'/pages/module/module?file='+encodeURIComponent(f)+'&name='+encodeURIComponent(n||'')})}}});
+var api = require('../../utils/api.js');
+Page({
+  data: { historyList: [], loading: true },
+  onLoad: function () { this.loadHistory(); },
+  onPullDownRefresh: function () { this.loadHistory().then(function () { wx.stopPullDownRefresh(); }); },
+  loadHistory: function () {
+    var self = this;
+    this.setData({ loading: true });
+    return api.get('/api/divination-history').then(function (data) {
+      var list = data.records || data.history || (Array.isArray(data) ? data : []);
+      self.setData({ historyList: list, loading: false });
+    }).catch(function () {
+      self.setData({ historyList: [], loading: false });
+    });
+  },
+  onItemTap: function (e) { wx.showToast({ title: '详情功能开发中', icon: 'none' }); }
+});

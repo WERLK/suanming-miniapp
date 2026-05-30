@@ -1,145 +1,136 @@
-.login-prompt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 120rpx 48rpx;
-}
+/* pages/profile/profile 个人中心 */
 
-.login-icon {
-  font-size: 100rpx;
-  margin-bottom: 24rpx;
-  opacity: 0.6;
-}
-
-.login-text {
-  font-size: 30rpx;
-  color: #888;
-}
-
-.user-card {
+/* 用户信息 */
+.profile-header {
   display: flex;
   align-items: center;
-  padding: 32rpx;
-  background: linear-gradient(135deg, rgba(15, 12, 41, 0.9), rgba(40, 30, 80, 0.95));
-  border-radius: 16rpx;
-  border: 1rpx solid rgba(255, 215, 0, 0.15);
+  gap: 24rpx;
+  padding: 36rpx 32rpx;
   margin-bottom: 24rpx;
 }
 
-.user-avatar {
-  width: 96rpx;
-  height: 96rpx;
+.profile-avatar-wrap {
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4a2d8f, #2d1b69);
+  overflow: hidden;
+  border: 3rpx solid rgba(255, 215, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-avatar-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 24rpx;
+  font-size: 52rpx;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.avatar-placeholder {
-  font-size: 40rpx;
-  color: #ffd700;
-  font-weight: bold;
-}
-
-.user-info {
+.profile-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
 }
 
-.username {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #fff;
-  display: block;
-  margin-bottom: 8rpx;
-}
-
-.arrow {
+.profile-username {
   font-size: 36rpx;
-  color: #666;
+  font-weight: 600;
+  color: #fff;
 }
 
-.vip-promo {
-  margin-bottom: 24rpx;
-}
-
-.vip-promo-title {
-  display: block;
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #ffd700;
-  margin-bottom: 4rpx;
-}
-
-.vip-promo-desc {
+.profile-email {
   font-size: 24rpx;
   color: #888;
+  margin-top: 2rpx;
 }
 
-.menu-section {
-  margin-bottom: 24rpx;
-}
-
-.menu-section-title {
-  display: block;
-  font-size: 24rpx;
-  color: #888;
-  padding: 0 16rpx;
-  margin-bottom: 12rpx;
+/* 菜单 */
+.profile-menu {
+  padding: 8rpx 0;
+  margin-bottom: 40rpx;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 28rpx 24rpx;
-  background: rgba(26, 26, 46, 0.85);
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.04);
-}
-
-.menu-item:first-child {
-  border-radius: 12rpx 12rpx 0 0;
-}
-
-.menu-item:last-child {
-  border-radius: 0 0 12rpx 12rpx;
-  border-bottom: none;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  transition: background 0.15s ease;
 }
 
 .menu-item:active {
-  background: rgba(255, 215, 0, 0.05);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.menu-icon {
+.menu-item + .menu-item {
+  border-top: 1rpx solid rgba(255, 255, 255, 0.04);
+}
+
+.menu-item-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.menu-item-icon {
   font-size: 36rpx;
-  margin-right: 20rpx;
-}
-
-.menu-text {
-  flex: 1;
-  font-size: 28rpx;
-  color: #e0e0ff;
-}
-
-.menu-arrow {
-  font-size: 32rpx;
-  color: #666;
-}
-
-.logout-section {
-  padding: 32rpx 0;
-}
-
-.footer {
+  width: 48rpx;
   text-align: center;
-  padding: 24rpx 0;
 }
 
-.footer-text {
-  font-size: 22rpx;
+.menu-item-label {
+  font-size: 28rpx;
+  color: #e0e0f0;
+}
+
+.menu-item-arrow {
+  font-size: 36rpx;
   color: #555;
+  font-weight: 300;
 }
 
-.user-meta {
-  margin-top: 4rpx;
+/* 退出按钮 */
+.logout-btn {
+  width: 100%;
+  height: 88rpx;
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1rpx solid rgba(231, 76, 60, 0.2);
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 未登录 */
+.login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+}
+
+.login-prompt-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.6;
+}
+
+.login-prompt-text {
+  font-size: 32rpx;
+  color: #888;
+}
+
+.bottom-safe {
+  height: 40rpx;
 }

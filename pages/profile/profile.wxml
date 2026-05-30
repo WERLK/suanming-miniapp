@@ -1,59 +1,47 @@
-<view class="page-container">
-  <!-- Not Logged In -->
-  <view wx:if="{{!isLoggedIn}}" class="login-prompt">
-    <text class="login-icon">👤</text>
-    <text class="login-text">登录后体验更多功能</text>
-    <button class="btn btn-primary btn-block" bindtap="onTapLogin" style="margin-top:32rpx">立即登录</button>
+<!-- pages/profile/profile - 个人中心 -->
+
+<!-- 已登录 -->
+<view wx:if="{{isLoggedIn}}" class="page-container">
+  <!-- 用户信息卡片 -->
+  <view class="profile-header card card-glow">
+    <view class="profile-avatar-wrap">
+      <image wx:if="{{avatar}}" class="profile-avatar" src="{{avatar}}" mode="aspectFill" />
+      <view wx:else class="profile-avatar-placeholder">👤</view>
+    </view>
+    <view class="profile-info">
+      <text class="profile-username">{{username || '用户'}}</text>
+      <vip-badge level="{{vipLevel}}" small="{{true}}" />
+      <text wx:if="{{email}}" class="profile-email">{{email}}</text>
+    </view>
   </view>
 
-  <!-- Logged In -->
-  <block wx:else>
-    <!-- User Card -->
-    <view class="user-card">
-      <view class="user-avatar">
-        <text class="avatar-placeholder">{{userInfo.username ? userInfo.username[0] : '?'}}</text>
+  <!-- 菜单列表 -->
+  <view class="profile-menu card">
+    <view class="menu-item"
+          wx:for="{{menuItems}}" wx:key="label"
+          bind:tap="navigateTo"
+          data-url="{{item.url}}">
+      <view class="menu-item-left">
+        <text class="menu-item-icon">{{item.icon}}</text>
+        <text class="menu-item-label">{{item.label}}</text>
       </view>
-      <view class="user-info">
-        <text class="username">{{userInfo.username || '用户'}}</text>
-        <view class="user-meta">
-          <text class="badge badge-gold">{{userInfo.level || '免费用户'}}</text>
-        </view>
-      </view>
-      <text class="arrow">›</text>
+      <text class="menu-item-arrow">›</text>
     </view>
+  </view>
 
-    <!-- VIP Card -->
-    <view class="card card-gold vip-promo" bindtap="onTapVIP">
-      <view class="flex-between">
-        <view>
-          <text class="vip-promo-title">👑 会员中心</text>
-          <text class="vip-promo-desc">解锁全部算命功能</text>
-        </view>
-        <text class="text-gold" style="font-size:36rpx">›</text>
-      </view>
-    </view>
+  <!-- 退出登录 -->
+  <button class="logout-btn" bind:tap="doLogout">退出登录</button>
 
-    <!-- Menu Sections -->
-    <block wx:for="{{menuSections}}" wx:key="title">
-      <view class="menu-section">
-        <text class="menu-section-title">{{item.title}}</text>
-        <block wx:for="{{item.items}}" wx:key="key">
-          <view class="menu-item" bindtap="onTapMenu" data-url="{{item.url}}" data-key="{{item.key}}">
-            <text class="menu-icon">{{item.icon}}</text>
-            <text class="menu-text">{{item.text}}</text>
-            <text class="menu-arrow">›</text>
-          </view>
-        </block>
-      </view>
-    </block>
+  <view class="bottom-safe"></view>
+</view>
 
-    <!-- Logout -->
-    <view class="logout-section">
-      <button class="btn btn-secondary btn-block" bindtap="onTapLogout">退出登录</button>
-    </view>
-
-    <view class="footer">
-      <text class="footer-text">玄机算命网 · xuanjisuanming.top</text>
-    </view>
-  </block>
+<!-- 未登录 -->
+<view wx:else class="page-container">
+  <view class="login-prompt">
+    <text class="login-prompt-icon">🔮</text>
+    <text class="login-prompt-text">登录后解锁更多功能</text>
+    <button class="btn btn-primary" style="margin-top:32rpx;" bind:tap="goToLogin">
+      立即登录
+    </button>
+  </view>
 </view>

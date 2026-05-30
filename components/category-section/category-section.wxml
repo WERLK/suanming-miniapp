@@ -1,24 +1,23 @@
-<!-- 分类折叠组件 -->
 <view class="cat-section">
-  <view class="cat-header" bindtap="onToggle">
-    <view class="cat-header-left">
-      <text class="cat-icon">{{icon}}</text>
-      <text class="cat-title">{{title}}</text>
-      <text class="cat-count">({{modules.length}})</text>
-    </view>
-    <text class="cat-arrow {{expanded ? 'open' : ''}}">▶</text>
+  <view class="cat-title" bind:tap="toggle">
+    <text class="cat-title-text">{{title}}</text>
+    <view class="cat-arrow {{expanded ? 'cat-arrow-expanded' : ''}}">▶</view>
   </view>
-  <view class="cat-body {{expanded ? 'open' : ''}}">
+  <view class="cat-body" wx:if="{{expanded}}">
     <view class="cat-grid">
-      <block wx:for="{{modules}}" wx:key="file">
-        <fortune-card
-          icon="{{item.icon || '🔮'}}"
-          name="{{item.name}}"
-          moduleFile="{{item.file}}"
-          moduleName="{{item.name}}"
-          isNew="{{item.isNew || false}}"
-        />
+      <block wx:for="{{modules}}" wx:key="path">
+        <view class="cat-module-item"
+              data-module="{{item}}"
+              bind:tap="onModuleTap">
+          <text class="cat-module-icon">{{item.icon || '🔮'}}</text>
+          <text class="cat-module-name">{{item.name}}</text>
+          <view class="cat-module-badges" wx:if="{{item.isNew || item.isHot}}">
+            <text wx:if="{{item.isNew}}" class="cat-badge cat-badge-new">NEW</text>
+            <text wx:if="{{item.isHot}}" class="cat-badge cat-badge-hot">🔥</text>
+          </view>
+        </view>
       </block>
     </view>
   </view>
+  <view class="cat-divider"></view>
 </view>

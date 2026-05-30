@@ -1,1 +1,7 @@
-{"usingComponents":{"category-section":"/components/category-section/category-section","fortune-card":"/components/fortune-card/fortune-card"},"navigationBarTitleText":"更多功能"}
+{
+  "usingComponents": {
+    "category-section": "/components/category-section/category-section",
+    "fortune-card": "/components/fortune-card/fortune-card"
+  },
+  "navigationBarTitleText": "更多功能"
+}

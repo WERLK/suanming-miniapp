@@ -1,59 +1,85 @@
+<!-- pages/index/index - 首页 -->
 <view class="page-container">
-  <!-- Hero Section -->
-  <view class="hero">
-    <text class="hero-title gradient-text">{{heroTitle}}</text>
-    <text class="hero-subtitle">{{heroSubtitle}}</text>
-    <view class="hero-actions">
-      <button class="btn btn-primary hero-btn" bindtap="onTapBazi">📅 八字排盘</button>
-      <button class="btn btn-secondary hero-btn" bindtap="onTapMore">🧩 更多功能</button>
+  <!-- Hero 区域 -->
+  <view class="hero-section">
+    <text class="hero-title">🔮 玄机算命</text>
+    <text class="hero-subtitle">探索命运的秘密，洞察人生的轨迹</text>
+    <view class="hero-cta">
+      <button class="btn btn-primary" bind:tap="navigateTo" data-url="/pages/module/module?type=bazi">
+        ☯️ 八字排盘
+      </button>
+      <button class="btn btn-secondary" bind:tap="navigateTo" data-url="/pages/more/more" open-type="switchTab">
+        🧩 更多功能
+      </button>
     </view>
   </view>
 
-  <!-- Quick Tools -->
+  <!-- 快速入口 -->
   <view class="section">
-    <text class="section-title">⚡ 快速入口</text>
+    <view class="section-title">
+      <view class="section-title-bar"></view>
+      <text>快速入口</text>
+    </view>
     <view class="grid-2">
-      <block wx:for="{{quickTools}}" wx:key="file">
-        <fortune-card
-          icon="{{item.icon}}"
-          name="{{item.name}}"
-          moduleFile="{{item.file}}"
-          moduleName="{{item.name}}"
-          desc="{{item.desc}}"
-        />
-      </block>
+      <fortune-card
+        wx:for="{{quickAccess}}" wx:key="path"
+        name="{{item.name}}"
+        icon="{{item.icon}}"
+        path="{{item.path}}"
+        isHot="{{item.hot}}"
+        bind:navigate="navigateToModule"
+      />
     </view>
   </view>
 
-  <!-- Featured Modules -->
+  <!-- 精选功能 -->
   <view class="section">
-    <text class="section-title">🔥 热门推荐</text>
-    <view class="grid-2">
-      <block wx:for="{{featuredModules}}" wx:key="file">
-        <fortune-card
-          icon="{{item.icon}}"
-          name="{{item.name}}"
-          moduleFile="{{item.file}}"
-          moduleName="{{item.name}}"
-          desc="{{item.desc}}"
-        />
-      </block>
+    <view class="section-title">
+      <view class="section-title-bar"></view>
+      <text>精选功能</text>
+    </view>
+    <view class="grid-3">
+      <fortune-card
+        wx:for="{{featuredModules}}" wx:key="path"
+        name="{{item.name}}"
+        icon="{{item.icon}}"
+        path="{{item.path}}"
+        bind:navigate="navigateToModule"
+      />
     </view>
   </view>
 
-  <!-- Knowledge Section -->
+  <!-- 命理知识 -->
   <view class="section">
-    <text class="section-title">📚 命理知识</text>
-    <block wx:for="{{knowledgeCards}}" wx:key="title">
-      <view class="card card-glow" hover-class="card-hover" bindtap="onTapKnowledge" data-index="{{index}}">
-        <text class="knowledge-title">{{item.title}}</text>
-        <text class="knowledge-desc">{{item.desc}}</text>
+    <view class="section-title">
+      <view class="section-title-bar"></view>
+      <text>命理知识</text>
+    </view>
+    <view class="knowledge-list">
+      <view class="knowledge-card">
+        <text class="knowledge-icon">☯️</text>
+        <view class="knowledge-body">
+          <text class="knowledge-title">八字入门</text>
+          <text class="knowledge-desc">了解天干地支、五行生克的基础知识，揭开八字命理的神秘面纱</text>
+        </view>
       </view>
-    </block>
+      <view class="knowledge-card">
+        <text class="knowledge-icon">⭐</text>
+        <view class="knowledge-body">
+          <text class="knowledge-title">紫微基础</text>
+          <text class="knowledge-desc">十二宫位的布局与十四主星的含义，解读命盘的核心要素</text>
+        </view>
+      </view>
+      <view class="knowledge-card">
+        <text class="knowledge-icon">💡</text>
+        <view class="knowledge-body">
+          <text class="knowledge-title">使用技巧</text>
+          <text class="knowledge-desc">如何正确提问？怎样理解算命结果？让 AI 助你更好地解读命运</text>
+        </view>
+      </view>
+    </view>
   </view>
 
-  <!-- Footer -->
-  <view class="footer">
-    <text class="footer-text">v{{appVersion}} · 玄机算命网</text>
-  </view>
+  <!-- 底部安全区 -->
+  <view class="bottom-safe"></view>
 </view>

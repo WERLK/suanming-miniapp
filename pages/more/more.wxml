@@ -1,16 +1,35 @@
+<!-- pages/more/more - 更多功能分类页 -->
 <view class="page-container">
-  <text class="page-title">🧩 全部算命工具</text>
-  <text class="page-desc">共 22 个分类，点击展开查看</text>
-
-  <block wx:for="{{categories}}" wx:key="title">
-    <category-section
-      title="{{item.title}}"
-      icon="{{item.icon}}"
-      modules="{{item.modules}}"
-    />
-  </block>
-
-  <view class="footer">
-    <text class="footer-text">— 玄机算命网 · 更多功能持续更新中 —</text>
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input class="search-input"
+           placeholder="搜索算命工具..."
+           placeholder-class="search-placeholder"
+           value="{{searchKeyword}}"
+           bindinput="onSearchInput"
+           confirm-type="search" />
+    <text class="search-clear" wx:if="{{searchKeyword}}" bind:tap="onClearSearch">✕</text>
   </view>
+
+  <!-- 分类列表 -->
+  <view class="categories-list">
+    <block wx:for="{{categories}}" wx:key="title">
+      <category-section
+        wx:if="{{item.modules.length > 0}}"
+        title="{{item.title}}"
+        modules="{{item.modules}}"
+        defaultExpanded="{{false}}"
+        bind:select="onModuleSelect"
+      />
+    </block>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{categories.length === 0}}">
+    <text>📭</text>
+    <text>暂无分类数据</text>
+  </view>
+
+  <view class="bottom-safe"></view>
 </view>

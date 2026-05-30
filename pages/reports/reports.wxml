@@ -1,11 +1,9 @@
 <view class="page-container">
-  <text class="page-title">📊 我的报告</text>
-  <view wx:if="{{loading}}" class="loading-wrapper"><text class="loading-text">加载中...</text></view>
-  <view wx:elif="{{items.length===0}}" class="empty-state"><text>暂无生成报告</text></view>
-  <block wx:else>
-    <view class="card" wx:for="{{items}}" wx:key="id">
-      <text class="history-name">{{item.title||'算命报告'}}</text>
-      <text class="history-time">{{item.created_at}}</text>
-    </view>
-  </block>
+  <block wx:if="{{!loading && reports.length > 0}}">
+    <view class="list-card card" wx:for="{{reports}}" wx:key="id">
+      <view class="list-item-row"><text class="list-item-icon">📊</text>
+        <view class="list-item-body"><text class="list-item-title">{{item.title||item.name||'报告'}}</text>
+        <text class="list-item-desc">{{item.date||item.created_at||''}}</text></view></view></view></block>
+  <view class="empty-state" wx:if="{{!loading && reports.length === 0}}"><text>📊</text><text>暂无报告</text></view>
+  <view class="loading-wrapper" wx:if="{{loading}}"><text class="loading-text">加载中...</text></view>
 </view>

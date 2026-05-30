@@ -1,34 +1,50 @@
 /**
- * ad-modal 组件 - 广告弹窗
+ * ad-modal 组件 - 广告观看弹窗
  *
- * 用法：
- * <ad-modal id="adModal" bind:reward="onAdReward"></ad-modal>
- * this.selectComponent('#adModal').show()
+ * 展示倒计时、广告容器占位、领取奖励按钮
+ * 支持真实广告商展示 + 降级倒计时模式
  */
-
 Component({
   properties: {
-    // 广告模式：'native' | 'fallback'
-    mode: {
+    // 是否可见
+    visible: {
+      type: Boolean,
+      value: false,
+      observer: function (newVal) {
+        if (newVal) {
+          this.startCountdown();
+        } else {
+          this.stopCountdown();
+        }
+      }
+    },
+    // 弹窗标题
+    title: {
       type: String,
-      value: 'fallback'
+      value: '看广告获取 VIP 时长'
     },
     // 倒计时秒数
-    countdownSeconds: {
+    seconds: {
       type: Number,
       value: 5
+    },
+    // 当前使用的广告商名称
+    provider: {
+      type: String,
+      value: ''
+    },
+    // 提示文字（广告加载中/观看广告即可领取奖励）
+    tipText: {
+      type: String,
+      value: '观看广告即可领取奖励'
     }
   },
 
   data: {
-    visible: false,
-    progressPercent: 0,
-    progressText: '准备中...',
-    rewardReady: false,
-    rewardBtnText: '请先观看广告 (0/5秒)',
-    fallbackText: '广告加载中，请稍候...',
-    currentSeconds: 0,
-    _timer: null
+    countdown: 0,           // 当前倒计时（正向计数）
+    counting: false,        // 是否正在计时
+    canClaim: false,        // 是否可以领取奖励
+    timer: null             // setInterval 句柄
   },
 
   lifetimes: {
@@ -39,119 +55,81 @@ Component({
 
   methods: {
     /**
-     * 显示广告弹窗
-     * @param {string} mode - 'native' | 'fallback'
-     */
-    show: function (mode) {
-      mode = mode || this.data.mode;
-      this.stopCountdown();
-      this.setData({
-        visible: true,
-        mode: mode,
-        progressPercent: 0,
-        rewardReady: false,
-        currentSeconds: 0,
-        rewardBtnText: '请先观看广告 (0/' + this.data.countdownSeconds + '秒)',
-        fallbackText: mode === 'fallback' ? '模拟广告播放中，请等待...' : ''
-      });
-
-      // 降级模式：自动开始倒计时
-      if (mode === 'fallback') {
-        this.startCountdown();
-      }
-
-      this.triggerEvent('show');
-    },
-
-    /**
-     * 开始倒计时
+     * 开始倒计时（正向 0 → seconds）
      */
     startCountdown: function () {
       var self = this;
-      var total = this.data.countdownSeconds;
-      var current = 0;
 
+      // 先重置
       this.stopCountdown();
-
       this.setData({
-        currentSeconds: 0,
-        progressPercent: 0,
-        rewardReady: false,
-        rewardBtnText: '请先观看广告 (0/' + total + '秒)'
+        countdown: 0,
+        counting: true,
+        canClaim: false
       });
 
-      this.data._timer = setInterval(function () {
-        current++;
-        var percent = Math.round((current / total) * 100);
+      var total = this.properties.seconds;
+      var timer = setInterval(function () {
+        var next = self.data.countdown + 1;
+        self.setData({ countdown: next });
 
-        self.setData({
-          currentSeconds: current,
-          progressPercent: percent,
-          progressText: current + '/' + total + ' 秒',
-          rewardBtnText: '请先观看广告 (' + current + '/' + total + '秒)'
-        });
-
-        if (current >= total) {
+        if (next >= total) {
+          self.setData({ counting: false, canClaim: true });
           self.stopCountdown();
-          self.setData({
-            rewardReady: true,
-            rewardBtnText: '🎁 领取奖励',
-            progressText: '观看完成！',
-            fallbackText: '广告观看完成，请点击领取奖励'
-          });
-          self.triggerEvent('ready');
         }
       }, 1000);
-    },
 
-    /**
-     * 手动标记广告完成（原生广告回调时使用）
-     */
-    markCompleted: function () {
-      this.stopCountdown();
-      this.setData({
-        progressPercent: 100,
-        rewardReady: true,
-        rewardBtnText: '🎁 领取奖励',
-        progressText: '观看完成！',
-        currentSeconds: this.data.countdownSeconds
-      });
-      this.triggerEvent('ready');
+      this.data.timer = timer;
     },
 
     /**
      * 停止倒计时
      */
     stopCountdown: function () {
-      if (this.data._timer) {
-        clearInterval(this.data._timer);
-        this.data._timer = null;
+      if (this.data.timer) {
+        clearInterval(this.data.timer);
+        this.data.timer = null;
       }
     },
 
     /**
      * 用户点击领取奖励
      */
-    onClaimReward: function () {
-      if (!this.data.rewardReady) return;
+    onClaimTap: function () {
+      if (!this.data.canClaim) return;
 
-      this.setData({ visible: false });
-      this.stopCountdown();
-      this.triggerEvent('reward', { completed: true });
+      // 触发领取事件，父页面处理 API 调用
+      this.triggerEvent('claim');
+      this.onClose();
     },
 
     /**
-     * 关闭弹窗（用户主动关闭，可能未看完）
+     * 用户关闭弹窗
      */
     onClose: function () {
-      if (this.data.rewardReady) return; // 已看完不能关闭
-      this.setData({ visible: false });
       this.stopCountdown();
-      this.triggerEvent('close', { completed: false });
+      this.setData({
+        counting: false,
+        countdown: 0,
+        canClaim: false
+      });
+      this.triggerEvent('close');
     },
 
     /**
-     * 阻止底层滚动
+     * 重置所有状态
+     */
+    reset: function () {
+      this.stopCountdown();
+      this.setData({
+        countdown: 0,
+        counting: false,
+        canClaim: false
+      });
+    },
+
+    /**
+     * 阻止事件冒泡（防止点击弹窗内容关闭）
      */
     noop: function () {}
   }

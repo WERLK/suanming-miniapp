@@ -1,9 +1,8 @@
-<!-- 算命工具卡片组件 -->
-<view class="fortune-card {{colorClass}} {{sizeClass}}" bindtap="onTap" hover-class="card-hover">
-  <view class="card-icon">{{icon}}</view>
-  <text class="card-name">{{name}}</text>
-  <text class="card-desc" wx:if="{{desc}}">{{desc}}</text>
-  <view class="card-badge" wx:if="{{isNew}}">
-    <text class="badge-text">NEW</text>
+<view class="fortune-card {{isHot ? 'fortune-card-hot' : ''}}" bind:tap="onTap">
+  <view class="fortune-card-icon">{{icon}}</view>
+  <view class="fortune-card-name">{{name}}</view>
+  <view class="fortune-card-badges" wx:if="{{isNew || isHot}}">
+    <text class="fortune-badge fortune-badge-new" wx:if="{{isNew}}">NEW</text>
+    <text class="fortune-badge fortune-badge-hot" wx:if="{{isHot}}">🔥 热门</text>
   </view>
 </view>

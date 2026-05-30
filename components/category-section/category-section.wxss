@@ -1,71 +1,121 @@
-/* 分类折叠组件 */
+/* category-section 组件样式 */
+
 .cat-section {
-  margin-bottom: 16rpx;
-  border-radius: 16rpx;
-  background: rgba(26, 26, 46, 0.85);
-  border: 1rpx solid rgba(255, 255, 255, 0.06);
-  overflow: hidden;
+  margin-bottom: 24rpx;
 }
 
-.cat-header {
+/* 标题行 */
+.cat-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28rpx 24rpx;
-  cursor: pointer;
+  padding: 24rpx 28rpx;
+  background: rgba(26, 26, 46, 0.9);
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s ease;
 }
 
-.cat-header:active {
-  background: rgba(255, 255, 255, 0.03);
+.cat-title:active {
+  background: rgba(40, 40, 70, 0.9);
 }
 
-.cat-header-left {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
-
-.cat-icon {
-  font-size: 36rpx;
-  margin-right: 12rpx;
-}
-
-.cat-title {
+.cat-title-text {
   font-size: 30rpx;
-  font-weight: 500;
-  color: #e0e0ff;
-}
-
-.cat-count {
-  font-size: 24rpx;
-  color: #888;
-  margin-left: 8rpx;
+  font-weight: 600;
+  color: #e0e0f0;
 }
 
 .cat-arrow {
   font-size: 22rpx;
-  color: #888;
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
+  color: #8888a0;
+  transition: transform 0.25s ease;
 }
 
-.cat-arrow.open {
+.cat-arrow-expanded {
   transform: rotate(90deg);
 }
 
+/* 模块网格 */
 .cat-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
+  padding: 24rpx 16rpx 0;
+  animation: catExpand 0.25s ease;
 }
 
-.cat-body.open {
-  max-height: 3000rpx;
+@keyframes catExpand {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 2000rpx; }
 }
 
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16rpx;
-  padding: 0 24rpx 24rpx 24rpx;
+}
+
+/* 模块项 */
+.cat-module-item {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1rpx solid rgba(255, 255, 255, 0.05);
+  border-radius: 12rpx;
+  padding: 20rpx 12rpx;
+  text-align: center;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.cat-module-item:active {
+  background: rgba(40, 40, 70, 0.8);
+  transform: scale(0.96);
+}
+
+.cat-module-icon {
+  font-size: 36rpx;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.cat-module-name {
+  font-size: 24rpx;
+  color: #b0b0c8;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+/* 徽标 */
+.cat-module-badges {
+  position: absolute;
+  top: 6rpx;
+  right: 6rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.cat-badge {
+  font-size: 16rpx;
+  padding: 1rpx 8rpx;
+  border-radius: 6rpx;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.cat-badge-new {
+  background: rgba(39, 174, 96, 0.2);
+  color: #27ae60;
+}
+
+.cat-badge-hot {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+}
+
+/* 分割线 */
+.cat-divider {
+  height: 1rpx;
+  background: rgba(255, 255, 255, 0.04);
+  margin-top: 20rpx;
 }

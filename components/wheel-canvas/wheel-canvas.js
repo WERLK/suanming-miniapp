@@ -1,192 +1,243 @@
+/**
+ * wheel-canvas 组件 - 幸运转盘
+ *
+ * 使用 Canvas 2D API 绘制带颜色扇区和文字的转盘
+ * 支持缓出动画旋转，结束后触发 spinend 事件
+ */
 Component({
   properties: {
-    prizes: {
+    // 转盘扇区 [{label, color, prize}]
+    segments: {
       type: Array,
       value: [
-        { name: '免广卡x1', color: '#2d1b69' },
-        { name: '30积分', color: '#1a1a4e' },
-        { name: '免广卡x3', color: '#0f3460' },
-        { name: '50积分', color: '#16213e' },
-        { name: '2h VIP', color: '#1a1a2e' },
-        { name: '100积分', color: '#0f3460' },
-        { name: '6h VIP', color: '#2d1b69' },
-        { name: '200积分', color: '#1a1a4e' }
+        { label: '10积分', color: '#2d1b4e', prize: 'points_10' },
+        { label: '免广卡x1', color: '#1a2a4e', prize: 'ad_card_1' },
+        { label: 'VIP 1h', color: '#2d1b4e', prize: 'vip_1h' },
+        { label: '谢谢参与', color: '#1a2a4e', prize: 'none' },
+        { label: '30积分', color: '#2d1b4e', prize: 'points_30' },
+        { label: '免广卡x3', color: '#1a2a4e', prize: 'ad_card_3' },
+        { label: 'VIP 6h', color: '#2d1b4e', prize: 'vip_6h' },
+        { label: '永久会员', color: '#4a2a00', prize: 'permanent' }
       ]
     },
-    spinsRemaining: {
+    // 是否禁用旋转
+    disabled: {
+      type: Boolean,
+      value: false
+    },
+    // 剩余旋转次数
+    spinsLeft: {
       type: Number,
-      value: 5
+      value: 0
     }
   },
 
   data: {
-    spinning: false,
     canvasWidth: 300,
-    centerX: 150,
-    centerY: 150,
-    radius: 130,
-    _currentAngle: 0,
-    _canvas: null,
-    _ctx: null
+    canvasHeight: 300,
+    spinning: false,
+    currentAngle: 0
   },
 
   lifetimes: {
     attached: function () {
-      this._initCanvas();
-    },
-    ready: function () {
-      // 延迟初始化确保 canvas 节点已挂载
+      // 延迟绘制，确保 canvas 节点已就绪
       var self = this;
       setTimeout(function () {
-        self._initCanvas();
+        self._drawWheel();
       }, 200);
     }
   },
 
+  observers: {
+    'segments': function () {
+      if (!this.data.spinning) {
+        this._drawWheel();
+      }
+    }
+  },
+
   methods: {
-    _initCanvas: function () {
+    /**
+     * 绘制转盘
+     */
+    _drawWheel: function () {
       var self = this;
       var query = this.createSelectorQuery();
       query.select('#wheelCanvas')
         .fields({ node: true, size: true })
         .exec(function (res) {
-          if (!res || !res[0] || !res[0].node) return;
+          if (!res || !res[0] || !res[0].node) {
+            console.warn('[wheel-canvas] Canvas 节点未找到');
+            return;
+          }
+
           var canvas = res[0].node;
-          var width = res[0].width || 300;
-          var height = res[0].height || 300;
-          var dpr = wx.getSystemInfoSync().pixelRatio;
-
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-
           var ctx = canvas.getContext('2d');
+          var dpr = wx.getSystemInfoSync().pixelRatio;
+          var size = 300;
+
+          canvas.width = size * dpr;
+          canvas.height = size * dpr;
           ctx.scale(dpr, dpr);
 
-          self.data._canvas = canvas;
-          self.data._ctx = ctx;
-          self.data.canvasWidth = width;
-          self.data.centerX = width / 2;
-          self.data.centerY = height / 2;
-          self.data.radius = width / 2 - 20;
+          // 清除画布
+          ctx.clearRect(0, 0, size, size);
 
-          self._drawWheel();
+          var centerX = size / 2;
+          var centerY = size / 2;
+          var radius = 130;
+          var segments = self.properties.segments;
+          var segmentAngle = (2 * Math.PI) / segments.length;
+          var angleOffset = self.data.currentAngle || 0;
+
+          // 绘制扇区
+          for (var i = 0; i < segments.length; i++) {
+            var startAngle = i * segmentAngle + angleOffset;
+            var endAngle = (i + 1) * segmentAngle + angleOffset;
+
+            // 扇区填充
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fillStyle = segments[i].color;
+            ctx.fill();
+
+            // 扇区边框
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // 绘制文字
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(startAngle + segmentAngle / 2);
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px sans-serif';
+            ctx.fillText(segments[i].label, radius * 0.6, 4);
+            ctx.restore();
+          }
+
+          // 外圈金色边框
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius + 4, 0, 2 * Math.PI);
+          ctx.strokeStyle = '#ffd700';
+          ctx.lineWidth = 4;
+          ctx.stroke();
+
+          // 外圈装饰
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius + 10, 0, 2 * Math.PI);
+          ctx.strokeStyle = 'rgba(255, 215, 0, 0.2)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // 中心圆
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, 24, 0, 2 * Math.PI);
+          var centerGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 24);
+          centerGrad.addColorStop(0, '#ffd700');
+          centerGrad.addColorStop(1, '#f0a500');
+          ctx.fillStyle = centerGrad;
+          ctx.fill();
+
+          // 中心文字
+          ctx.fillStyle = '#1a1a2e';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('抽奖', centerX, centerY + 4);
+
+          // 指针（顶部三角形指示器）
+          ctx.beginPath();
+          ctx.moveTo(centerX - 12, centerY - radius + 8);
+          ctx.lineTo(centerX + 12, centerY - radius + 8);
+          ctx.lineTo(centerX, centerY - radius - 12);
+          ctx.closePath();
+          ctx.fillStyle = '#ffd700';
+          ctx.fill();
+          ctx.strokeStyle = '#1a1a2e';
+          ctx.lineWidth = 2;
+          ctx.stroke();
         });
     },
 
-    _drawWheel: function (rotateAngle) {
-      var ctx = this.data._ctx;
-      if (!ctx) return;
-
-      var prizes = this.data.prizes;
-      var total = prizes.length;
-      var anglePer = (2 * Math.PI) / total;
-      var cx = this.data.centerX;
-      var cy = this.data.centerY;
-      var r = this.data.radius;
-      var rotate = (rotateAngle || 0);
-
-      ctx.clearRect(0, 0, this.data.canvasWidth, this.data.canvasWidth);
-
-      // 绘制扇区
-      for (var i = 0; i < total; i++) {
-        var startAngle = i * anglePer + rotate - Math.PI / 2;
-        var endAngle = startAngle + anglePer;
-
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, r, startAngle, endAngle);
-        ctx.closePath();
-
-        // 渐变色
-        var colors = this._getSegmentColors(i, total);
-        var gradient = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
-        gradient.addColorStop(0, colors[0]);
-        gradient.addColorStop(1, colors[1]);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        // 扇区边框
-        ctx.strokeStyle = 'rgba(255,215,0,0.3)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // 扇区文字
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(startAngle + anglePer / 2);
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 12px sans-serif';
-        ctx.fillText(prizes[i].name, r * 0.65, 4);
-        ctx.restore();
-      }
-
-      // 外圈金色边框
-      ctx.beginPath();
-      ctx.arc(cx, cy, r + 4, 0, 2 * Math.PI);
-      ctx.strokeStyle = '#ffd700';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    },
-
-    _getSegmentColors: function (index, total) {
-      var colorPairs = [
-        ['#2d1b69', '#4a2d8f'],
-        ['#1a1a4e', '#2d2d6e'],
-        ['#0f3460', '#1a5080'],
-        ['#16213e', '#2a3a5e'],
-        ['#1a1a2e', '#2d2d50'],
-        ['#2d1b69', '#3d2b80'],
-        ['#0f3460', '#1a4a75'],
-        ['#1a1a4e', '#2d2d65']
-      ];
-      return colorPairs[index % colorPairs.length];
-    },
-
-    onSpinTap: function () {
-      if (this.data.spinning) return;
-      if (this.data.spinsRemaining <= 0) {
-        wx.showToast({ title: '今日抽奖次数已用完', icon: 'none' });
-        return;
-      }
-
+    /**
+     * 旋转转盘
+     */
+    spinWheel: function () {
       var self = this;
+      if (this.data.spinning || this.properties.disabled) return;
+
       this.setData({ spinning: true });
 
-      // 随机目标索引
-      var total = this.data.prizes.length;
-      var targetIndex = Math.floor(Math.random() * total);
+      // 随机目标扇区索引
+      var segments = this.properties.segments;
+      var targetIndex = Math.floor(Math.random() * segments.length);
 
-      // 计算旋转角度：至少转 5 圈 + 到达目标扇区
-      var anglePer = (2 * Math.PI) / total;
-      var targetAngle = (2 * Math.PI) - (targetIndex * anglePer) - (anglePer / 2);
-      var totalRotation = 5 * 2 * Math.PI + targetAngle;
+      // 计算目标角度：让目标扇区对准顶部指针
+      // 指针在顶部（-pi/2 方向），需要旋转使得 targetIndex 的中间对准顶部
+      var segmentAngle = (2 * Math.PI) / segments.length;
+      var targetAngle = (Math.PI / 2) - (targetIndex * segmentAngle + segmentAngle / 2);
 
-      // 动画参数
-      var startAngle = this.data._currentAngle;
-      var duration = 4000; // 4 秒
+      // 添加多圈旋转效果（至少 5 圈）
+      var totalRotations = 5 + Math.floor(Math.random() * 3); // 5-7 圈
+      var totalAngle = totalRotations * 2 * Math.PI + targetAngle;
+
+      // 缓出动画参数
       var startTime = Date.now();
-      var frameRate = 16; // ~60fps
+      var duration = 3000; // 3 秒
+      var startAngle = this.data.currentAngle;
 
-      var animTimer = setInterval(function () {
+      // 使用 requestAnimationFrame 动画
+      function animate() {
         var elapsed = Date.now() - startTime;
         var progress = Math.min(elapsed / duration, 1);
 
         // easeOutCubic
-        var ease = 1 - Math.pow(1 - progress, 3);
-        var currentAngle = startAngle + totalRotation * ease;
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var currentAngle = startAngle + totalAngle * eased;
 
-        self.data._currentAngle = currentAngle;
-        self._drawWheel(currentAngle);
+        self.setData({ currentAngle: currentAngle });
+        self._drawWheel();
 
-        if (progress >= 1) {
-          clearInterval(animTimer);
+        if (progress < 1) {
+          // 微信小程序不支持 requestAnimationFrame，用 setTimeout 模拟
+          setTimeout(animate, 16);
+        } else {
+          // 动画完成
           self.setData({ spinning: false });
-          var prize = self.data.prizes[targetIndex];
-          wx.showToast({ title: '恭喜获得: ' + prize.name, icon: 'none', duration: 2000 });
-          self.triggerEvent('spincomplete', { index: targetIndex, prize: prize });
+          self.triggerEvent('spinend', {
+            index: targetIndex,
+            prize: segments[targetIndex]
+          });
         }
-      }, frameRate);
+      }
+
+      animate();
+    },
+
+    /**
+     * 获取目标扇区
+     */
+    _getTargetSegment: function (angle) {
+      var segments = this.properties.segments;
+      var segmentAngle = (2 * Math.PI) / segments.length;
+      // 标准化角度到 [0, 2π)
+      var normalized = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      // 指针在顶部 (-π/2)，需要转换
+      var pointerAngle = (Math.PI / 2 - normalized + 2 * Math.PI) % (2 * Math.PI);
+      var index = Math.floor(pointerAngle / segmentAngle);
+      return segments[index];
+    },
+
+    /**
+     * 用户点击旋转
+     */
+    onSpinTap: function () {
+      if (this.data.spinning || this.properties.disabled) return;
+      this.triggerEvent('spin');
     }
   }
 });

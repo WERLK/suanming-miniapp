@@ -1,11 +1,38 @@
+<!-- pages/register/register -->
 <view class="page-container">
-  <view class="login-header"><text class="login-title gradient-text">创建账号</text><text class="login-subtitle">注册玄机算命账号</text></view>
-  <view class="login-form">
-    <view class="input-group"><text class="input-label">用户名</text><input class="input-field" placeholder="设置用户名" data-field="username" bindinput="onInput"/></view>
-    <view class="input-group"><text class="input-label">邮箱（选填）</text><input class="input-field" placeholder="用于找回密码" data-field="email" bindinput="onInput"/></view>
-    <view class="input-group"><text class="input-label">密码</text><input class="input-field" placeholder="至少6位" password data-field="password" bindinput="onInput"/></view>
-    <view class="input-group"><text class="input-label">确认密码</text><input class="input-field" placeholder="再次输入密码" password data-field="password2" bindinput="onInput"/></view>
-    <button class="btn btn-primary btn-block" bindtap="onRegister" loading="{{registering}}" disabled="{{registering}}">{{registering?'注册中...':'注册'}}</button>
-    <view class="login-footer"><text class="register-link" bindtap="onGoLogin">已有账号？立即登录</text></view>
+  <view class="login-header">
+    <text class="login-icon">✨</text>
+    <text class="login-title">创建账号</text>
+    <text class="login-subtitle">加入玄机算命，探索命运奥秘</text>
+  </view>
+
+  <view class="login-form card">
+    <view class="input-group">
+      <text class="input-label">用户名</text>
+      <input class="input-field" placeholder="至少3个字符" placeholder-class="input-placeholder"
+             value="{{username}}" data-field="username" bindinput="onInput" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">邮箱（选填）</text>
+      <input class="input-field" placeholder="用于找回密码" placeholder-class="input-placeholder"
+             value="{{email}}" data-field="email" bindinput="onInput" type="text" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="input-field" type="password" placeholder="至少6个字符" placeholder-class="input-placeholder"
+             value="{{password}}" data-field="password" bindinput="onInput" />
+    </view>
+    <view class="input-group">
+      <text class="input-label">确认密码</text>
+      <input class="input-field" type="password" placeholder="再次输入密码" placeholder-class="input-placeholder"
+             value="{{confirmPassword}}" data-field="confirmPassword" bindinput="onInput" />
+    </view>
+    <button class="btn btn-primary btn-block" bind:tap="doRegister" loading="{{loading}}" disabled="{{loading}}">
+      {{loading ? '注册中...' : '注册'}}
+    </button>
+  </view>
+
+  <view style="text-align:center;">
+    <text class="link-item" bind:tap="goToLogin">已有账号？立即登录</text>
   </view>
 </view>

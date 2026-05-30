@@ -1,1 +1,1 @@
-@import "../privacy/privacy.wxss";
+.settings-card{margin-bottom:16rpx}.setting-row{display:flex;align-items:center;justify-content:space-between;padding:24rpx 28rpx}.setting-label{font-size:28rpx;color:#e0e0f0}

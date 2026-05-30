@@ -1,65 +1,78 @@
-.wheel-container {
+/* wheel-canvas 组件样式 */
+
+.wheel-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32rpx 0;
+  padding: 24rpx 0;
 }
 
-.wheel-canvas-wrapper {
+.wheel-canvas-container {
   position: relative;
-  width: 600rpx;
-  height: 600rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 300px;
+  height: 300px;
+  margin-bottom: 32rpx;
 }
 
 .wheel-canvas {
-  width: 600rpx;
-  height: 600rpx;
+  width: 300px;
+  height: 300px;
 }
 
-.wheel-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 140rpx;
-  height: 140rpx;
-  background: radial-gradient(circle, #ffd700, #f0a500);
-  border-radius: 50%;
+.wheel-controls {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4rpx 20rpx rgba(255, 215, 0, 0.4);
-  z-index: 10;
-}
-
-.wheel-center:active {
-  transform: translate(-50%, -50%) scale(0.95);
-}
-
-.wheel-center-text {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #1a1a2e;
-}
-
-.wheel-info {
-  margin-top: 24rpx;
-}
-
-.wheel-remaining {
-  font-size: 26rpx;
-  color: #b0b0c8;
-}
-
-.text-gold {
-  color: #ffd700;
-  font-weight: bold;
+  gap: 20rpx;
+  width: 100%;
 }
 
 .wheel-spin-btn {
-  margin-top: 24rpx;
-  width: 400rpx;
+  width: 360rpx;
+  height: 88rpx;
+  background: linear-gradient(135deg, #ffd700, #f0a500);
+  color: #1a1a2e;
+  font-size: 32rpx;
+  font-weight: 700;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(255, 215, 0, 0.3);
+  letter-spacing: 2rpx;
+}
+
+.wheel-spin-btn:active {
+  opacity: 0.85;
+  transform: scale(0.96);
+}
+
+.wheel-spin-btn-disabled {
+  background: rgba(255, 255, 255, 0.08);
+  color: #666;
+  box-shadow: none;
+  font-weight: 400;
+}
+
+.wheel-spin-btn-disabled:active {
+  opacity: 1;
+  transform: none;
+}
+
+.wheel-spins-left {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
+
+.spins-text {
+  font-size: 26rpx;
+  color: #8888a0;
+}
+
+.spins-count {
+  font-size: 30rpx;
+  color: #ffd700;
+  font-weight: 600;
 }

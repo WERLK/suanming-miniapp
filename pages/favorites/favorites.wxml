@@ -1,10 +1,9 @@
 <view class="page-container">
-  <text class="page-title">⭐ 我的收藏</text>
-  <view wx:if="{{loading}}" class="loading-wrapper"><text class="loading-text">加载中...</text></view>
-  <view wx:elif="{{items.length===0}}" class="empty-state"><text>还没有收藏任何工具</text></view>
-  <view class="grid-2" wx:else>
-    <block wx:for="{{items}}" wx:key="module_file">
-      <fortune-card icon="🔮" name="{{item.module_name}}" moduleFile="{{item.module_file}}" moduleName="{{item.module_name}}"/>
-    </block>
-  </view>
+  <block wx:if="{{!loading && favList.length > 0}}">
+    <view class="list-card card" wx:for="{{favList}}" wx:key="path" bind:tap="onItemTap" data-path="{{item.file||item.path}}">
+      <view class="list-item-row"><text class="list-item-icon">⭐</text>
+        <view class="list-item-body"><text class="list-item-title">{{item.module_name||item.name}}</text></view>
+        <text class="list-item-arrow">›</text></view></view></block>
+  <view class="empty-state" wx:if="{{!loading && favList.length === 0}}"><text>⭐</text><text>暂无收藏</text></view>
+  <view class="loading-wrapper" wx:if="{{loading}}"><text class="loading-text">加载中...</text></view>
 </view>

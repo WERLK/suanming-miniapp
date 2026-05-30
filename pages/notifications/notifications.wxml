@@ -1,9 +1,5 @@
 <view class="page-container">
-  <text class="page-title">🔔 通知设置</text>
-  <block wx:for="{{notifLabels}}" wx:key="key">
-    <view class="card setting-item flex-between">
-      <view><text class="setting-label">{{item.label}}</text><text class="setting-desc">{{item.desc}}</text></view>
-      <switch checked="{{settings[item.key]}}" bindchange="onToggle" data-key="{{item.key}}" color="#ffd700"/>
-    </view>
-  </block>
+  <view class="settings-card card" wx:for="{{['daily_fortune','checkin_reminder','ad_available']}}" wx:key="*this">
+    <view class="setting-row"><text class="setting-label">{{item==='daily_fortune'?'每日运势提醒':item==='checkin_reminder'?'签到提醒':'广告可用通知'}}</text>
+    <switch checked="{{settings[item]||false}}" bindchange="onToggle" data-key="{{item}}" color="#ffd700"/></view></view>
 </view>

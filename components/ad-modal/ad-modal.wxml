@@ -1,42 +1,43 @@
-<!-- 广告弹窗组件 -->
-<view class="ad-overlay {{visible ? 'active' : ''}}" wx:if="{{visible}}" catchtouchmove="noop">
-  <view class="ad-modal">
+<!-- ad-modal 广告观看弹窗 -->
+<view class="ad-modal-mask" wx:if="{{visible}}" bind:tap="onClose">
+  <view class="ad-modal-card" catch:tap="noop">
     <!-- 关闭按钮 -->
-    <view class="ad-close" bindtap="onClose">
-      <text class="ad-close-icon">✕</text>
+    <view class="ad-modal-close" bind:tap="onClose">✕</view>
+
+    <!-- 标题 -->
+    <view class="ad-modal-title">{{title}}</view>
+
+    <!-- 广告容器占位 -->
+    <view class="ad-modal-container">
+      <view wx:if="{{!canClaim}}" class="ad-placeholder">
+        <text class="ad-placeholder-icon">📺</text>
+        <text class="ad-placeholder-text">{{tipText}}</text>
+      </view>
+      <view wx:else class="ad-complete">
+        <text class="ad-complete-icon">✅</text>
+        <text class="ad-complete-text">广告观看完成！</text>
+      </view>
     </view>
 
-    <!-- 广告展示区域 -->
-    <view class="ad-content">
-      <text class="ad-title">📺 看广告获取 VIP 时长</text>
-
-      <!-- 微信原生广告容器（由外部控制渲染） -->
-      <view class="ad-container" wx:if="{{mode === 'native'}}">
-        <slot name="ad-content"></slot>
+    <!-- 倒计时进度 -->
+    <view class="ad-timer-section">
+      <view class="ad-timer-bar-bg">
+        <view class="ad-timer-bar-fill" style="width: {{countdown / seconds * 100}}%;"></view>
       </view>
-
-      <!-- 降级模式：模拟广告 -->
-      <view class="ad-fallback" wx:if="{{mode === 'fallback'}}">
-        <view class="ad-placeholder">
-          <text class="ad-placeholder-icon">🎬</text>
-          <text class="ad-placeholder-text">{{fallbackText}}</text>
-        </view>
+      <view class="ad-timer-info">
+        <text wx:if="{{!canClaim}}" class="ad-timer-text">
+          {{counting ? '观看中 ' + countdown + '/' + seconds + ' 秒' : '即将开始...'}}
+        </text>
+        <text wx:else class="ad-timer-text ad-timer-ready">可以领取奖励了！</text>
       </view>
-
-      <!-- 倒计时进度 -->
-      <view class="ad-progress">
-        <view class="ad-progress-bar">
-          <view class="ad-progress-fill" style="width: {{progressPercent}}%"></view>
-        </view>
-        <text class="ad-progress-text">{{progressText}}</text>
-      </view>
-
-      <!-- 领取奖励按钮 -->
-      <button class="btn btn-primary btn-block ad-claim-btn {{rewardReady ? '' : 'btn-disabled'}}"
-              bindtap="onClaimReward"
-              disabled="{{!rewardReady}}">
-        {{rewardBtnText}}
-      </button>
+      <text wx:if="{{provider}}" class="ad-provider-tag">广告商: {{provider}}</text>
     </view>
+
+    <!-- 领取按钮 -->
+    <button class="ad-claim-btn {{canClaim ? '' : 'ad-claim-btn-disabled'}}"
+            bind:tap="onClaimTap"
+            disabled="{{!canClaim}}">
+      {{canClaim ? '🎁 领取奖励' : '请先观看广告 (' + countdown + '/' + seconds + '秒)'}}
+    </button>
   </view>
 </view>

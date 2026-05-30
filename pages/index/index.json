@@ -1,1 +1,7 @@
-{"usingComponents":{"fortune-card":"/components/fortune-card/fortune-card"},"navigationBarTitleText":"玄机算命"}
+{
+  "usingComponents": {
+    "fortune-card": "/components/fortune-card/fortune-card",
+    "vip-badge": "/components/vip-badge/vip-badge"
+  },
+  "navigationBarTitleText": "玄机算命"
+}

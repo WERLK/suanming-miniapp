@@ -1,15 +1,25 @@
-<!-- 幸运转盘组件 -->
-<view class="wheel-container">
-  <view class="wheel-canvas-wrapper">
-    <canvas type="2d" id="wheelCanvas" class="wheel-canvas"></canvas>
-    <view class="wheel-center" bindtap="onSpinTap">
-      <text class="wheel-center-text">{{spinning ? '...' : '抽奖'}}</text>
+<!-- wheel-canvas 幸运转盘 -->
+<view class="wheel-wrapper">
+  <!-- Canvas 转盘 -->
+  <view class="wheel-canvas-container">
+    <canvas type="2d" id="wheelCanvas" class="wheel-canvas" style="width:300px;height:300px;"></canvas>
+  </view>
+
+  <!-- 旋转按钮 -->
+  <view class="wheel-controls">
+    <button
+      class="wheel-spin-btn {{spinning || disabled ? 'wheel-spin-btn-disabled' : ''}}"
+      bind:tap="onSpinTap"
+      disabled="{{spinning || disabled}}"
+    >
+      {{spinning ? '旋转中...' : '🎯 开始抽奖'}}
+    </button>
+
+    <!-- 剩余次数 -->
+    <view class="wheel-spins-left" wx:if="{{spinsLeft !== undefined}}">
+      <text class="spins-text">今日剩余: </text>
+      <text class="spins-count">{{spinsLeft}}</text>
+      <text class="spins-text"> 次</text>
     </view>
   </view>
-  <view class="wheel-info">
-    <text class="wheel-remaining">今日剩余 <text class="text-gold">{{spinsRemaining}}</text> 次</text>
-  </view>
-  <button class="btn btn-primary btn-block wheel-spin-btn" bindtap="onSpinTap" disabled="{{spinning || spinsRemaining <= 0}}">
-    {{spinning ? '抽奖中...' : (spinsRemaining > 0 ? '🎰 开始抽奖' : '今日次数已用完')}}
-  </button>
 </view>

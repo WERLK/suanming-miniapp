@@ -1,1 +1,1 @@
-@import "../history/history.wxss";
+.list-card{margin-bottom:12rpx}.list-item-row{display:flex;align-items:center;gap:16rpx;padding:24rpx}.list-item-icon{font-size:36rpx;width:48rpx;text-align:center}.list-item-body{flex:1}.list-item-title{font-size:28rpx;color:#e0e0f0;display:block}.list-item-desc{font-size:22rpx;color:#888;display:block;margin-top:4rpx}
