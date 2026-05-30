@@ -1,0 +1,59 @@
+<view class="page-container">
+  <!-- Not Logged In -->
+  <view wx:if="{{!isLoggedIn}}" class="login-prompt">
+    <text class="login-icon">👤</text>
+    <text class="login-text">登录后体验更多功能</text>
+    <button class="btn btn-primary btn-block" bindtap="onTapLogin" style="margin-top:32rpx">立即登录</button>
+  </view>
+
+  <!-- Logged In -->
+  <block wx:else>
+    <!-- User Card -->
+    <view class="user-card">
+      <view class="user-avatar">
+        <text class="avatar-placeholder">{{userInfo.username ? userInfo.username[0] : '?'}}</text>
+      </view>
+      <view class="user-info">
+        <text class="username">{{userInfo.username || '用户'}}</text>
+        <view class="user-meta">
+          <text class="badge badge-gold">{{userInfo.level || '免费用户'}}</text>
+        </view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <!-- VIP Card -->
+    <view class="card card-gold vip-promo" bindtap="onTapVIP">
+      <view class="flex-between">
+        <view>
+          <text class="vip-promo-title">👑 会员中心</text>
+          <text class="vip-promo-desc">解锁全部算命功能</text>
+        </view>
+        <text class="text-gold" style="font-size:36rpx">›</text>
+      </view>
+    </view>
+
+    <!-- Menu Sections -->
+    <block wx:for="{{menuSections}}" wx:key="title">
+      <view class="menu-section">
+        <text class="menu-section-title">{{item.title}}</text>
+        <block wx:for="{{item.items}}" wx:key="key">
+          <view class="menu-item" bindtap="onTapMenu" data-url="{{item.url}}" data-key="{{item.key}}">
+            <text class="menu-icon">{{item.icon}}</text>
+            <text class="menu-text">{{item.text}}</text>
+            <text class="menu-arrow">›</text>
+          </view>
+        </block>
+      </view>
+    </block>
+
+    <!-- Logout -->
+    <view class="logout-section">
+      <button class="btn btn-secondary btn-block" bindtap="onTapLogout">退出登录</button>
+    </view>
+
+    <view class="footer">
+      <text class="footer-text">玄机算命网 · xuanjisuanming.top</text>
+    </view>
+  </block>
+</view>

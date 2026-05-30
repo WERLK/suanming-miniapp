@@ -1,0 +1,40 @@
+<view class="page-container">
+  <view class="login-header">
+    <text class="login-title gradient-text">玄机算命</text>
+    <text class="login-subtitle">登录你的账号</text>
+  </view>
+
+  <view class="login-form">
+    <view class="input-group">
+      <text class="input-label">用户名 / 邮箱</text>
+      <input class="input-field" placeholder="请输入用户名或邮箱"
+             placeholder-style="color:#555" value="{{username}}"
+             bindinput="onUsernameInput" auto-focus/>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input class="input-field" placeholder="请输入密码" password
+             placeholder-style="color:#555" value="{{password}}"
+             bindinput="onPasswordInput"/>
+    </view>
+
+    <view class="flex-between" style="margin-bottom:32rpx">
+      <view class="flex-row" bindtap="onRememberChange">
+        <view class="check-box {{rememberMe ? 'checked' : ''}}">
+          <text wx:if="{{rememberMe}}">✓</text>
+        </view>
+        <text class="check-label">记住密码</text>
+      </view>
+    </view>
+
+    <button class="btn btn-primary btn-block" bindtap="onLogin"
+            loading="{{loggingIn}}" disabled="{{loggingIn}}">
+      {{loggingIn ? '登录中...' : '登录'}}
+    </button>
+
+    <view class="login-footer">
+      <text class="register-link" bindtap="onGoRegister">还没有账号？立即注册</text>
+    </view>
+  </view>
+</view>

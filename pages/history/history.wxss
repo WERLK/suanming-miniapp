@@ -1,0 +1,1 @@
+.page-title{display:block;font-size:32rpx;font-weight:bold;color:#ffd700;margin-bottom:24rpx}.history-item{padding:24rpx}.history-name{font-size:28rpx;font-weight:500;color:#e0e0ff}.history-time{font-size:22rpx;color:#666}.history-summary{display:block;font-size:24rpx;color:#888;margin-top:8rpx;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

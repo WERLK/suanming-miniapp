@@ -1,0 +1,2 @@
+var fortune = require('../../utils/fortune.js');var auth = require('../../utils/auth.js');
+Page({data:{items:[],loading:false},onLoad:function(){if(!auth.isLoggedIn()){wx.reLaunch({url:'/pages/login/login'});return}this.loadData()},onShow:function(){if(auth.isLoggedIn())this.loadData()},loadData:function(){var s=this;s.setData({loading:true});fortune.getFavorites().then(function(r){var items=(r&&r.favorites)||(r&&r.items)||[];s.setData({items:items,loading:false})}).catch(function(){s.setData({loading:false})})}});

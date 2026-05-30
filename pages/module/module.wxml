@@ -1,0 +1,78 @@
+<view class="page-container">
+  <text class="module-title">{{moduleName}}</text>
+
+  <!-- Bazi form -->
+  <view class="card" wx:if="{{showBaziForm}}">
+    <text class="form-title">📅 请输入出生日期</text>
+    <view class="form-row">
+      <view class="form-col"><text class="input-label">年</text><input class="input-field" type="number" placeholder="1990" value="{{birthYear}}" bindinput="onYearInput"/></view>
+      <view class="form-col"><text class="input-label">月</text><input class="input-field" type="number" placeholder="1" value="{{birthMonth}}" bindinput="onMonthInput"/></view>
+    </view>
+    <view class="form-row">
+      <view class="form-col"><text class="input-label">日</text><input class="input-field" type="number" placeholder="15" value="{{birthDay}}" bindinput="onDayInput"/></view>
+      <view class="form-col"><text class="input-label">时辰</text><input class="input-field" type="number" placeholder="0" value="{{birthHour}}" bindinput="onHourInput"/></view>
+    </view>
+    <view class="form-row">
+      <view class="form-col"><text class="input-label">性别</text>
+        <picker mode="selector" range="{{genderOptions}}" value="{{genderIndex}}" bindchange="onGenderChange">
+          <view class="input-field picker-field">{{genderOptions[genderIndex]}}</view>
+        </picker>
+      </view>
+      <view class="form-col"></view>
+    </view>
+  </view>
+
+  <!-- Generic form -->
+  <view class="card" wx:if="{{showGenericForm}}">
+    <text class="form-title">📝 {{genericLabel}}</text>
+    <view class="input-group">
+      <input class="input-field" placeholder="请输入内容..." placeholder-style="color:#555" value="{{genericInput}}" bindinput="onGenericInput"/>
+    </view>
+  </view>
+
+  <!-- Image form -->
+  <view class="card" wx:if="{{showImageForm}}">
+    <text class="form-title">📷 上传图片</text>
+    <view class="image-upload" bindtap="onChooseImage">
+      <image wx:if="{{imagePath}}" class="upload-preview" src="{{imagePath}}" mode="aspectFill"/>
+      <view wx:else class="upload-placeholder">
+        <text class="upload-icon">📷</text>
+        <text class="upload-text">点击选择图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Calculate button -->
+  <button class="btn btn-primary btn-block" style="margin:24rpx 0" bindtap="onCalculate" loading="{{loading}}" disabled="{{loading}}">
+    {{loading ? '测算中...' : '🔮 开始测算'}}
+  </button>
+
+  <!-- Error -->
+  <view class="error-box" wx:if="{{errorMsg}}">
+    <text class="error-text">❌ {{errorMsg}}</text>
+  </view>
+
+  <!-- Result -->
+  <view class="result-section" wx:if="{{hasResult}}">
+    <view class="result-header flex-between">
+      <text class="result-title">📋 测算结果</text>
+      <view class="result-actions">
+        <text class="action-btn" bindtap="onToggleFavorite">{{isFavorite ? '⭐' : '☆'}}</text>
+        <text class="action-btn" bindtap="onShareResult">📤</text>
+      </view>
+    </view>
+    <scroll-view scroll-y class="result-scroll" wx:if="{{result}}">
+      <view class="result-content">
+        <block wx:if="{{result.result}}">
+          <rich-text nodes="{{result.result}}"></rich-text>
+        </block>
+        <block wx:elif="{{result.data}}">
+          <text class="result-text">{{result.data}}</text>
+        </block>
+        <block wx:else>
+          <text class="result-text">{{result}}</text>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+</view>

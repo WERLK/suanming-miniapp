@@ -1,0 +1,15 @@
+<!-- 幸运转盘组件 -->
+<view class="wheel-container">
+  <view class="wheel-canvas-wrapper">
+    <canvas type="2d" id="wheelCanvas" class="wheel-canvas"></canvas>
+    <view class="wheel-center" bindtap="onSpinTap">
+      <text class="wheel-center-text">{{spinning ? '...' : '抽奖'}}</text>
+    </view>
+  </view>
+  <view class="wheel-info">
+    <text class="wheel-remaining">今日剩余 <text class="text-gold">{{spinsRemaining}}</text> 次</text>
+  </view>
+  <button class="btn btn-primary btn-block wheel-spin-btn" bindtap="onSpinTap" disabled="{{spinning || spinsRemaining <= 0}}">
+    {{spinning ? '抽奖中...' : (spinsRemaining > 0 ? '🎰 开始抽奖' : '今日次数已用完')}}
+  </button>
+</view>

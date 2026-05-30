@@ -1,0 +1,9 @@
+<view class="page-container">
+  <text class="page-title">🔔 通知设置</text>
+  <block wx:for="{{notifLabels}}" wx:key="key">
+    <view class="card setting-item flex-between">
+      <view><text class="setting-label">{{item.label}}</text><text class="setting-desc">{{item.desc}}</text></view>
+      <switch checked="{{settings[item.key]}}" bindchange="onToggle" data-key="{{item.key}}" color="#ffd700"/>
+    </view>
+  </block>
+</view>

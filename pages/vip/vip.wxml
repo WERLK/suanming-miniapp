@@ -1,0 +1,83 @@
+<view class="page-container">
+  <!-- VIP Hero -->
+  <view class="vip-hero">
+    <vip-badge
+      level="{{vipStatus.level}}"
+      remainingCount="{{vipStatus.remainingCount}}"
+      maxCount="{{vipStatus.maxCount}}"
+      expiresAt="{{vipStatus.expiresAt}}"
+    />
+    <view class="vip-points">
+      <text class="points-label">我的积分</text>
+      <text class="points-value">{{vipStatus.points}}</text>
+    </view>
+  </view>
+
+  <!-- Benefits -->
+  <view class="card card-glow">
+    <text class="section-title">✨ 会员权益</text>
+    <view class="benefits-grid">
+      <block wx:for="{{benefits}}" wx:key="text">
+        <view class="benefit-item">
+          <text class="benefit-icon">{{item.icon}}</text>
+          <text class="benefit-text">{{item.text}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- Checkin -->
+  <view class="card">
+    <view class="flex-between">
+      <view>
+        <text class="section-title">📅 每日签到</text>
+        <text class="section-desc">连续签到获更多积分</text>
+      </view>
+      <button class="btn btn-primary btn-sm" bindtap="doCheckin"
+              disabled="{{vipStatus.checkinToday || checkingIn}}">
+        {{vipStatus.checkinToday ? '✅ 已签到' : (checkingIn ? '签到中...' : '签到')}}
+      </button>
+    </view>
+  </view>
+
+  <!-- Watch Ad -->
+  <view class="card card-gold">
+    <view class="flex-between">
+      <view>
+        <text class="section-title">📺 看广告得 VIP</text>
+        <text class="section-desc">观看广告获取 VIP 时长</text>
+      </view>
+      <button class="btn btn-primary btn-sm" bindtap="watchAd">立即观看</button>
+    </view>
+  </view>
+
+  <!-- Wheel -->
+  <view class="card">
+    <text class="section-title">🎰 幸运转盘</text>
+    <wheel-canvas
+      spinsRemaining="{{vipStatus.wheelSpins}}"
+      bind:spincomplete="onWheelComplete"
+    />
+  </view>
+
+  <!-- Redeem -->
+  <view class="card">
+    <text class="section-title">🎁 积分兑换</text>
+    <view class="grid-2">
+      <block wx:for="{{redeemOptions}}" wx:key="type">
+        <view class="redeem-card" bindtap="doRedeem"
+              data-type="{{item.type}}" data-name="{{item.name}}" data-cost="{{item.cost}}">
+          <text class="redeem-name">{{item.name}}</text>
+          <text class="redeem-cost">💰 {{item.cost}} 积分</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- Ad Modal -->
+  <ad-modal id="adModal"
+    mode="{{adMode}}"
+    bind:reward="onAdReward"
+    bind:close="onAdClose"
+  />
+</view>

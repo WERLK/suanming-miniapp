@@ -1,0 +1,11 @@
+<view class="page-container">
+  <view class="login-header"><text class="login-title gradient-text">创建账号</text><text class="login-subtitle">注册玄机算命账号</text></view>
+  <view class="login-form">
+    <view class="input-group"><text class="input-label">用户名</text><input class="input-field" placeholder="设置用户名" data-field="username" bindinput="onInput"/></view>
+    <view class="input-group"><text class="input-label">邮箱（选填）</text><input class="input-field" placeholder="用于找回密码" data-field="email" bindinput="onInput"/></view>
+    <view class="input-group"><text class="input-label">密码</text><input class="input-field" placeholder="至少6位" password data-field="password" bindinput="onInput"/></view>
+    <view class="input-group"><text class="input-label">确认密码</text><input class="input-field" placeholder="再次输入密码" password data-field="password2" bindinput="onInput"/></view>
+    <button class="btn btn-primary btn-block" bindtap="onRegister" loading="{{registering}}" disabled="{{registering}}">{{registering?'注册中...':'注册'}}</button>
+    <view class="login-footer"><text class="register-link" bindtap="onGoLogin">已有账号？立即登录</text></view>
+  </view>
+</view>

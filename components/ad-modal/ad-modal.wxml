@@ -1,0 +1,42 @@
+<!-- 广告弹窗组件 -->
+<view class="ad-overlay {{visible ? 'active' : ''}}" wx:if="{{visible}}" catchtouchmove="noop">
+  <view class="ad-modal">
+    <!-- 关闭按钮 -->
+    <view class="ad-close" bindtap="onClose">
+      <text class="ad-close-icon">✕</text>
+    </view>
+
+    <!-- 广告展示区域 -->
+    <view class="ad-content">
+      <text class="ad-title">📺 看广告获取 VIP 时长</text>
+
+      <!-- 微信原生广告容器（由外部控制渲染） -->
+      <view class="ad-container" wx:if="{{mode === 'native'}}">
+        <slot name="ad-content"></slot>
+      </view>
+
+      <!-- 降级模式：模拟广告 -->
+      <view class="ad-fallback" wx:if="{{mode === 'fallback'}}">
+        <view class="ad-placeholder">
+          <text class="ad-placeholder-icon">🎬</text>
+          <text class="ad-placeholder-text">{{fallbackText}}</text>
+        </view>
+      </view>
+
+      <!-- 倒计时进度 -->
+      <view class="ad-progress">
+        <view class="ad-progress-bar">
+          <view class="ad-progress-fill" style="width: {{progressPercent}}%"></view>
+        </view>
+        <text class="ad-progress-text">{{progressText}}</text>
+      </view>
+
+      <!-- 领取奖励按钮 -->
+      <button class="btn btn-primary btn-block ad-claim-btn {{rewardReady ? '' : 'btn-disabled'}}"
+              bindtap="onClaimReward"
+              disabled="{{!rewardReady}}">
+        {{rewardBtnText}}
+      </button>
+    </view>
+  </view>
+</view>

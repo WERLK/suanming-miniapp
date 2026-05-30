@@ -1,0 +1,15 @@
+<view class="page-container">
+  <view class="about-header"><text class="about-name gradient-text">{{appName}}</text><text class="about-version">v{{version}}</text></view>
+  <text class="about-desc">专业在线算命平台，结合传统命理学与现代AI技术，为您提供精准的命理分析服务。</text>
+  <view class="card"><text class="section-title">核心功能</text>
+    <view class="feature-item" wx:for="{{features}}" wx:key="*this"><text>• {{item}}</text></view>
+  </view>
+  <view class="card"><text class="section-title">备案信息</text>
+    <text class="beian-text" wx:if="{{icp}}">{{icp}}</text>
+    <text class="beian-text" wx:if="{{gaBeian}}">{{gaBeian}}</text>
+  </view>
+  <view class="about-links">
+    <text class="about-link" bindtap="onTapPrivacy">隐私政策</text>
+    <text class="about-link" bindtap="onTapTerms">服务条款</text>
+  </view>
+</view>

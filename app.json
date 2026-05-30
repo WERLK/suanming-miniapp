@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/more/more",
+    "pages/vip/vip",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/history/history",
+    "pages/favorites/favorites",
+    "pages/reports/reports",
+    "pages/about/about",
+    "pages/privacy/privacy",
+    "pages/help/help",
+    "pages/edit-profile/edit-profile",
+    "pages/notifications/notifications",
+    "pages/module/module"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0f0c29",
+    "navigationBarTitleText": "玄机算命",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0f0c29",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#888888",
+    "selectedColor": "#ffd700",
+    "backgroundColor": "#1a1a2e",
+    "borderStyle": "black",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "更多",
+        "iconPath": "images/tab-more.png",
+        "selectedIconPath": "images/tab-more-active.png"
+      },
+      {
+        "pagePath": "pages/vip/vip",
+        "text": "会员",
+        "iconPath": "images/tab-vip.png",
+        "selectedIconPath": "images/tab-vip-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 15000,
+    "connectSocket": 15000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于提供更精准的命理分析服务"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

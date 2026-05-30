@@ -1,0 +1,9 @@
+<!-- 算命工具卡片组件 -->
+<view class="fortune-card {{colorClass}} {{sizeClass}}" bindtap="onTap" hover-class="card-hover">
+  <view class="card-icon">{{icon}}</view>
+  <text class="card-name">{{name}}</text>
+  <text class="card-desc" wx:if="{{desc}}">{{desc}}</text>
+  <view class="card-badge" wx:if="{{isNew}}">
+    <text class="badge-text">NEW</text>
+  </view>
+</view>

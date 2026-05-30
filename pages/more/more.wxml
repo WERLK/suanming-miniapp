@@ -1,0 +1,16 @@
+<view class="page-container">
+  <text class="page-title">🧩 全部算命工具</text>
+  <text class="page-desc">共 22 个分类，点击展开查看</text>
+
+  <block wx:for="{{categories}}" wx:key="title">
+    <category-section
+      title="{{item.title}}"
+      icon="{{item.icon}}"
+      modules="{{item.modules}}"
+    />
+  </block>
+
+  <view class="footer">
+    <text class="footer-text">— 玄机算命网 · 更多功能持续更新中 —</text>
+  </view>
+</view>

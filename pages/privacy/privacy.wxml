@@ -1,0 +1,9 @@
+<view class="page-container">
+  <text class="page-title">🔒 隐私设置</text>
+  <block wx:for="{{[{key:'public_profile',label:'公开个人资料',desc:'允许其他用户查看你的基本资料'},{key:'show_history',label:'公开算命记录',desc:'允许其他用户查看你的算命历史'},{key:'allow_share',label:'允许分享',desc:'允许你的算命结果被分享到社区'},{key:'allow_data',label:'数据收集',desc:'允许我们收集使用数据以改善服务'}]}}" wx:key="key">
+    <view class="card setting-item flex-between">
+      <view><text class="setting-label">{{item.label}}</text><text class="setting-desc">{{item.desc}}</text></view>
+      <switch checked="{{settings[item.key]}}" bindchange="onToggle" data-key="{{item.key}}" color="#ffd700"/>
+    </view>
+  </block>
+</view>

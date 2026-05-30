@@ -1,0 +1,10 @@
+<view class="page-container">
+  <text class="page-title">⭐ 我的收藏</text>
+  <view wx:if="{{loading}}" class="loading-wrapper"><text class="loading-text">加载中...</text></view>
+  <view wx:elif="{{items.length===0}}" class="empty-state"><text>还没有收藏任何工具</text></view>
+  <view class="grid-2" wx:else>
+    <block wx:for="{{items}}" wx:key="module_file">
+      <fortune-card icon="🔮" name="{{item.module_name}}" moduleFile="{{item.module_file}}" moduleName="{{item.module_name}}"/>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,59 @@
+<view class="page-container">
+  <!-- Hero Section -->
+  <view class="hero">
+    <text class="hero-title gradient-text">{{heroTitle}}</text>
+    <text class="hero-subtitle">{{heroSubtitle}}</text>
+    <view class="hero-actions">
+      <button class="btn btn-primary hero-btn" bindtap="onTapBazi">📅 八字排盘</button>
+      <button class="btn btn-secondary hero-btn" bindtap="onTapMore">🧩 更多功能</button>
+    </view>
+  </view>
+
+  <!-- Quick Tools -->
+  <view class="section">
+    <text class="section-title">⚡ 快速入口</text>
+    <view class="grid-2">
+      <block wx:for="{{quickTools}}" wx:key="file">
+        <fortune-card
+          icon="{{item.icon}}"
+          name="{{item.name}}"
+          moduleFile="{{item.file}}"
+          moduleName="{{item.name}}"
+          desc="{{item.desc}}"
+        />
+      </block>
+    </view>
+  </view>
+
+  <!-- Featured Modules -->
+  <view class="section">
+    <text class="section-title">🔥 热门推荐</text>
+    <view class="grid-2">
+      <block wx:for="{{featuredModules}}" wx:key="file">
+        <fortune-card
+          icon="{{item.icon}}"
+          name="{{item.name}}"
+          moduleFile="{{item.file}}"
+          moduleName="{{item.name}}"
+          desc="{{item.desc}}"
+        />
+      </block>
+    </view>
+  </view>
+
+  <!-- Knowledge Section -->
+  <view class="section">
+    <text class="section-title">📚 命理知识</text>
+    <block wx:for="{{knowledgeCards}}" wx:key="title">
+      <view class="card card-glow" hover-class="card-hover" bindtap="onTapKnowledge" data-index="{{index}}">
+        <text class="knowledge-title">{{item.title}}</text>
+        <text class="knowledge-desc">{{item.desc}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- Footer -->
+  <view class="footer">
+    <text class="footer-text">v{{appVersion}} · 玄机算命网</text>
+  </view>
+</view>

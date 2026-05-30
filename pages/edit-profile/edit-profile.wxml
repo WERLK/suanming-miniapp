@@ -1,0 +1,11 @@
+<view class="page-container">
+  <text class="page-title">✏️ 编辑资料</text>
+  <view class="avatar-section" bindtap="onChooseAvatar">
+    <image wx:if="{{avatar}}" class="avatar-preview" src="{{avatar}}" mode="aspectFill"/>
+    <view wx:else class="avatar-placeholder-lg"><text>📷</text></view>
+    <text class="avatar-hint">点击更换头像</text>
+  </view>
+  <view class="input-group"><text class="input-label">用户名</text><input class="input-field" value="{{username}}" bindinput="onUsernameInput"/></view>
+  <view class="input-group"><text class="input-label">邮箱</text><input class="input-field" value="{{email}}" bindinput="onEmailInput"/></view>
+  <button class="btn btn-primary btn-block" bindtap="onSave" loading="{{saving}}" disabled="{{saving}}">{{saving?'保存中...':'保存'}}</button>
+</view>

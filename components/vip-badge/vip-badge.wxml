@@ -1,0 +1,11 @@
+<view class="vip-badge {{levelClass}}">
+  <text class="vip-level-icon">{{levelIcon}}</text>
+  <text class="vip-level-name">{{levelName}}</text>
+  <view class="vip-progress" wx:if="{{showProgress}}">
+    <view class="vip-progress-bar">
+      <view class="vip-progress-fill" style="width:{{progressPercent}}%"></view>
+    </view>
+    <text class="vip-progress-text">今日剩余 {{remainingCount}}/{{maxCount}} 次</text>
+  </view>
+  <text class="vip-expires" wx:if="{{expiresText}}">{{expiresText}}</text>
+</view>

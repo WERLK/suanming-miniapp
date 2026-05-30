@@ -1,0 +1,24 @@
+<!-- 分类折叠组件 -->
+<view class="cat-section">
+  <view class="cat-header" bindtap="onToggle">
+    <view class="cat-header-left">
+      <text class="cat-icon">{{icon}}</text>
+      <text class="cat-title">{{title}}</text>
+      <text class="cat-count">({{modules.length}})</text>
+    </view>
+    <text class="cat-arrow {{expanded ? 'open' : ''}}">▶</text>
+  </view>
+  <view class="cat-body {{expanded ? 'open' : ''}}">
+    <view class="cat-grid">
+      <block wx:for="{{modules}}" wx:key="file">
+        <fortune-card
+          icon="{{item.icon || '🔮'}}"
+          name="{{item.name}}"
+          moduleFile="{{item.file}}"
+          moduleName="{{item.name}}"
+          isNew="{{item.isNew || false}}"
+        />
+      </block>
+    </view>
+  </view>
+</view>

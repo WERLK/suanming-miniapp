@@ -1,0 +1,77 @@
+/* 首页 */
+.hero {
+  text-align: center;
+  padding: 48rpx 24rpx 40rpx;
+  background: linear-gradient(180deg, rgba(45, 27, 105, 0.3), transparent);
+  border-radius: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.hero-title {
+  font-size: 56rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+
+.hero-subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #888;
+  margin-bottom: 32rpx;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 20rpx;
+  justify-content: center;
+}
+
+.hero-btn {
+  width: 240rpx;
+  height: 72rpx;
+  font-size: 26rpx;
+}
+
+.section {
+  margin-bottom: 32rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 20rpx;
+  padding-left: 8rpx;
+}
+
+.card-hover {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.knowledge-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e0e0ff;
+  margin-bottom: 8rpx;
+}
+
+.knowledge-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #888;
+  line-height: 1.6;
+}
+
+.footer {
+  text-align: center;
+  padding: 48rpx 0 24rpx;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: #666;
+}
